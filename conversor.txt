@@ -1,0 +1,115 @@
+JMP start
+
+binary: DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+DB '0'
+
+ 
+bintam: DB 8;
+
+value: DB 13    ;valor pra ser convertido
+
+start:
+
+	MOV C, binary
+
+	MOV B, [value]
+
+	INC B
+
+	decvalue:
+
+	DEC B
+
+	JZ pushstack
+
+getbin:
+
+	MOV A, [C]
+
+	CMP A,'1'
+
+	JNE setone;
+
+	CALL setzero
+
+	INC C ;incrementa um endereço
+
+	JMP getbin
+
+setzero:
+
+	MOV [C], '0'
+
+	RET
+
+setone:
+
+	MOV [C], '1'
+
+	JMP resetindex
+
+ 
+
+resetindex:
+
+	MOV C, binary
+
+	JMP decvalue;
+
+ 
+
+pushstack:
+
+	MOV B, [bintam]
+
+	DEC B
+
+	MOV D, 232
+
+invert:
+
+	INC C
+
+	DEC B
+
+	CMP B, 0
+
+	JNZ invert
+
+.loop:
+
+	MOV A, [C]; Get char from var
+
+	MOV [D], A; Write to output
+
+	DEC C
+
+	INC D
+
+	INC B  
+
+	CMP B, 8; Check if end
+
+	JNZ .loop; jump if not
+
+JMP end
+
+end:
+  HLT
+
+ 
